@@ -1,186 +1,133 @@
-# Solana Coin Indexing Backend
+Hippo Vault
 
-A fast and scalable backend service for indexing new and updated tokens on the Solana blockchain. Includes a RESTful API with Swagger documentation and Telegram integration for real-time notifications.
+Hippo Vault is an on-chain locking and escrow system designed to enforce long-term alignment, transparency, and capital discipline across the Hippo ecosystem.
 
-## ✨ Features
+It is used to lock tokens, manage release schedules, and make commitments verifiable on-chain.
 
-- ✅ Index new token mints and metadata
-- 🔁 Monitor for token updates (price, liquidity, holders, etc.)
-- 📬 Send Telegram alerts for new token listings
-- 📘 Swagger UI for API documentation
-- 🛠️ Written in Node.js / TypeScript
-- ⚡ PostgreSQL or Redis for persistent storage
+Overview
 
----
+The Hippo Vault exists to solve a common problem in crypto projects:
 
-[![image](https://github.com/user-attachments/assets/ea441bdd-81ae-4d81-b22d-181a7150bd6d)](https://coin-indexing-app-backend.vercel.app/)
+Trust should be enforced by code, not promises.
 
+Instead of relying on social assurances or off-chain agreements, the Vault provides a verifiable mechanism for locking tokens with predefined rules that cannot be changed arbitrarily.
 
-## 📦 Tech Stack
+Core Concepts
+Vault
 
-- **Solana Web3.js**
-- **Node.js / Express**
-- **Redis**
-- **Swagge**
-- **Telegram Bot API**
+A Vault is a program-controlled account that holds tokens under strict conditions.
 
----
+Once tokens are deposited:
 
-## 🚀 Getting Started
+They cannot be moved freely
 
-### Prerequisites
+Release conditions are enforced on-chain
 
-- Node.js ≥ 18
-- Redis
-- A Telegram Bot Token (from [@BotFather](https://t.me/BotFather))
-- A Telegram Chat ID (group or user)
+All balances and schedules are publicly verifiable
 
-### Clone the Repo
+Locks
 
-```bash
-git clone https://github.com/vvizardev/coin-indexing-app-backend.git
-```
+A Lock defines how and when tokens can be released from the Vault.
 
-### Install Dependencies
+Each lock includes:
 
-```bash
-npm install
-```
+Token mint
 
-### Environment Variables
+Amount locked
 
-Create a `.env` file:
+Beneficiary address
 
-```env
-SOLANA_TRACKER_API_KEY=
-PORT=
-BOT_TOKEN=
-CHANNEL_HANDLE=
-BOT_NAME=
-API_URL=
-```
+Unlock schedule
 
-### Run the Indexer
+Release rules
 
-```bash
-npm run start
-# or
-cargo run
-```
+Locks are immutable once created.
 
----
+Lock Types
+Time-Based Locks
 
-## 🧠 How It Works
+Tokens are locked until a specific timestamp or block height.
 
-1. Connects to the Solana RPC and scans for new token mints.
-2. Fetches metadata using Metaplex or TokenList.
-3. Stores tokens in PostgreSQL or Redis.
-4. Sends Telegram messages when criteria match.
-5. Exposes an API to retrieve token data via REST.
+Use cases:
 
----
+Team allocations
 
-## 📘 API Documentation
+Long-term incentives
 
-After running the server, visit:
+Delayed distributions
 
-```
-http://localhost:3000
-```
+Vesting Locks
 
-Here you’ll find Swagger UI with full documentation.
+Tokens unlock gradually over time according to a predefined schedule.
 
----
+Use cases:
 
-## 🔔 Telegram Notifications
+Contributor compensation
 
-Example message sent to Telegram:
+Protocol incentives
 
-```
-🚀 New Token Detected!
-Name: Banana Coin 🍌
-Mint: F5vA...DxP
-Symbol: BANANA
-```
+Long-term alignment
 
-> Customize filters in `src/indexer/filter.ts` to reduce spam.
+Cliff Locks
 
----
+Tokens remain fully locked until a cliff date, after which they unlock either fully or begin vesting.
 
-## 📡 API Endpoints
+Use cases:
 
-### 🔥 Trending
+Early contributors
 
-- **Trending SOL Pools**  
-  `GET /api/v1/trending`  
-  _Get trending SOL pools_
+Strategic allocations
 
-- **Trending Tokens (Tracker)**  
-  `GET /api/v1/tracker/trending`  
-  _Get trending tokens from tracker_
+Risk-aligned commitments
 
----
+How It Works
 
-### 📈 Token Lists (Tracker)
+Tokens are deposited into the Hippo Vault
 
-- **Tokens by Volume**  
-  `GET /api/v1/tracker/tokens/volume`  
-  _Get tokens sorted by trading volume_
+A lock configuration is created on-chain
 
-- **Tokens by Multi**  
-  `GET /api/v1/tracker/tokens/multi`  
-  _Get tokens by multi-metric logic_
+The Vault enforces all lock rules programmatically
 
-- **Latest Tokens**  
-  `GET /api/v1/tracker/tokens/latest`  
-  _Get the most recently listed tokens_
+Tokens are released only when conditions are met
 
-- **Graduated Tokens**  
-  `GET /api/v1/tracker/tokens/graduated`  
-  _Get tokens that have graduated from tracker status_
+All activity is publicly visible and auditable
 
----
+There are no admin overrides or backdoors.
 
-### 🔍 Token Details (Tracker)
+Transparency & Security
 
-- **Get Token Details**  
-  `GET /api/v1/tracker/tokens/{tokenAddress}`  
-  _Fetch token details by its address_
+All locks are verifiable on-chain
 
+Token balances and schedules are publicly readable
 
----
+Unlock events are deterministic and predictable
 
-## 🧪 Test
+No manual intervention required
 
-```bash
-npm run test
-```
+The Vault is designed to reduce trust assumptions as much as possible.
 
----
+Why Locks Matter
 
-## 🛡️ Production
+Locks are not about restriction - they are about credibility.
 
-Use Docker:
+They ensure:
 
-```bash
-docker build -t solana-indexer .
-docker run --env-file .env -p 3000:3000 solana-indexer
-```
+Teams cannot exit early
 
----
+Allocations are honored as stated
 
-## 🙌 Contributing
+Long-term builders are aligned
 
-PRs welcome! Please open an issue first to discuss any major changes.
+Users can verify commitments themselves
 
----
+Current Usage
 
-## 📄 License
+The Hippo Vault is currently used to:
 
-MIT © 2025 @vvizardev
+Lock HIPPO token allocations
 
----
+Enforce long-term release schedules
 
-## 📬 Contact
+Demonstrate alignment with the Solana Index roadmap
 
-- Telegram: [@heaven9099](https://t.me/heaven9099)
+Specific lock addresses and parameters are documented separately for clarity.
